@@ -416,14 +416,29 @@ cd ~/workspace/finn/finn
 
 ### Step 4: Configure FINN for Vivado Integration
 
-Inside FINN Docker container:
+Add FINN environment variables to `~/.bashrc`:
 
 ```bash
-# Set Vivado environment
+# Open bashrc
+nano ~/.bashrc
+
+# Add these lines at the end:
+export FINN_ROOT=~/workspace/finn/finn
 export VIVADO_PATH=/tools/Xilinx/Vivado/2022.2
 export PLATFORM_REPO_PATHS=/tools/Xilinx/platforms
 
-# Verify Vivado is accessible
+# Save and apply changes
+source ~/.bashrc
+```
+
+Verify inside FINN Docker container:
+
+```bash
+# Start FINN Docker
+cd ~/workspace/finn/finn
+./run-docker.sh
+
+# Inside container, check Vivado
 which vivado
 ```
 
@@ -449,36 +464,30 @@ print("FINN is ready!")
 
 ### Step 6: FINN Environment Setup (Host Machine)
 
-Create a convenience script to enter FINN environment:
+FINN environment variables are already set in `~/.bashrc` from Step 4.
+
+To start FINN, simply run:
 
 ```bash
-nano ~/finn_env.sh
-```
-
-Add:
-
-```bash
-#!/bin/bash
-# FINN Environment Setup
-
-export FINN_ROOT=~/workspace/finn/finn
-export VIVADO_PATH=/tools/Xilinx/Vivado/2022.2
-export PLATFORM_REPO_PATHS=/tools/Xilinx/platforms
-
-cd $FINN_ROOT
+cd ~/workspace/finn/finn
 ./run-docker.sh
 ```
 
-Make executable:
+Optional: Create a convenience script:
 
 ```bash
+# Create script
+nano ~/finn_env.sh
+
+# Add:
+#!/bin/bash
+cd ~/workspace/finn/finn
+./run-docker.sh
+
+# Make executable
 chmod +x ~/finn_env.sh
-```
 
-Usage:
-
-```bash
-# Start FINN environment
+# Usage:
 ~/finn_env.sh
 ```
 
